@@ -1,7 +1,6 @@
 from random import choice, randint
 
 import pygame as pg
-"""Учла коммент"""
 
 # Константы для размеров поля и сетки:
 SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
@@ -53,27 +52,21 @@ class GameObject:
         self.body_color = body_color
 
     def draw(self):
-        """
-        Класс draw по умолчанию pass. Но поменяла на
-        NotImplementedError после коммента.
-        """
-        raise NotImplementedError()
+        """Класс draw."""
+        raise NotImplementedError('Этот метод не реализован.')
 
 
 class Apple(GameObject):
-    """Класс Apple наследует атрибуты родительсского класса GameObject."""
+    """Класс Apple наслед ует атрибуты родительсского класса GameObject."""
 
     def __init__(self, body_color=None):
         super().__init__(body_color)
-        # self.position = self.randomize_position()
 
     def randomize_position(self, positions: list) -> None:
         """
         Метод randomize_position устанавливает
         случайное положение яблока на игровом поле.
         """
-        # return ((randint(0, GRID_WIDTH) * GRID_SIZE),
-        #         ((randint(0, GRID_HEIGHT) * GRID_SIZE)))
         while True:
             new_coordinat = ((randint(0, GRID_WIDTH - 1) * GRID_SIZE),
                              ((randint(0, GRID_HEIGHT - 1) * GRID_SIZE)))
@@ -82,7 +75,7 @@ class Apple(GameObject):
                 break
 
     def draw(self):
-        """Метод draw класса Apple. Взяла из прекода."""
+        """Метод draw класса Apple."""
         rect = pg.Rect(self.position, (GRID_SIZE, GRID_SIZE))
         pg.draw.rect(screen, self.body_color, rect)
         pg.draw.rect(screen, BORDER_COLOR, rect, 1)
@@ -101,7 +94,7 @@ class Snake(GameObject):
     def update_direction(self):
         """
         Метод update_direction обновляет
-        направления после нажатия на кнопку. Взяла из прекода.
+        направления после нажатия на кнопку.
         """
         if self.next_direction:
             self.direction = self.next_direction
@@ -123,7 +116,7 @@ class Snake(GameObject):
             self.positions.pop(-1)
 
     def draw(self):
-        """Метод draw класса Snake. Взяла из прекода."""
+        """Метод draw класса Snake."""
         for position in self.positions[:-1]:
             rect = (pg.Rect(position, (GRID_SIZE, GRID_SIZE)))
             pg.draw.rect(screen, self.body_color, rect)
@@ -159,7 +152,7 @@ class Snake(GameObject):
 def handle_keys(game_object):
     """
     Функция, которая обрабатывает нажатия клавиш,
-    чтобы изменить направление движения змейки. Взяла из прекода.
+    чтобы изменить направление движения змейки.
     """
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -195,7 +188,7 @@ def main():
             snake.length += 1
             apple.randomize_position(snake.positions)
 
-        if snake.positions[0] in snake.positions[1:]:
+        if snake.positions[0] in snake.positions[4:]:
             snake.reset()
             screen.fill(BOARD_BACKGROUND_COLOR)
 
