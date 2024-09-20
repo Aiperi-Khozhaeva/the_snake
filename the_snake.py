@@ -1,6 +1,7 @@
 from random import choice, randint
 
 import pygame as pg
+"""Учла коммент"""
 
 # Константы для размеров поля и сетки:
 SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
@@ -47,19 +48,22 @@ class GameObject:
     и 1 метод - draw.
     """
 
-    def __init__(self, body_color) -> None:
+    def __init__(self, body_color=None) -> None:
         self.position = ((SCREEN_WIDTH // 2), (SCREEN_HEIGHT // 2))
         self.body_color = body_color
 
     def draw(self):
-        """Класс draw по умолчанию pass."""
+        """
+        Класс draw по умолчанию pass. Но поменяла на
+        NotImplementedError после коммента.
+        """
         raise NotImplementedError()
 
 
 class Apple(GameObject):
     """Класс Apple наследует атрибуты родительсского класса GameObject."""
 
-    def __init__(self, body_color):
+    def __init__(self, body_color=None):
         super().__init__(body_color)
         # self.position = self.randomize_position()
 
@@ -72,15 +76,13 @@ class Apple(GameObject):
         #         ((randint(0, GRID_HEIGHT) * GRID_SIZE)))
         while True:
             new_coordinat = ((randint(0, GRID_WIDTH - 1) * GRID_SIZE),
-                        ((randint(0, GRID_HEIGHT - 1) * GRID_SIZE)))
+                             ((randint(0, GRID_HEIGHT - 1) * GRID_SIZE)))
             if new_coordinat not in positions:
                 self.position = new_coordinat
                 break
 
-
-
     def draw(self):
-        """Метод draw класса Apple."""
+        """Метод draw класса Apple. Взяла из прекода."""
         rect = pg.Rect(self.position, (GRID_SIZE, GRID_SIZE))
         pg.draw.rect(screen, self.body_color, rect)
         pg.draw.rect(screen, BORDER_COLOR, rect, 1)
@@ -89,16 +91,17 @@ class Apple(GameObject):
 class Snake(GameObject):
     """Класс Snake наследует атрибуты родительсского класса GameObject."""
 
-    def __init__(self, body_color):
+    def __init__(self, body_color=None):
         super().__init__(body_color)
         self.direction = RIGHT
         self.next_direction = None
         self.last = None
+        self.reset(start_game=True)
 
     def update_direction(self):
         """
         Метод update_direction обновляет
-        направления после нажатия на кнопку.
+        направления после нажатия на кнопку. Взяла из прекода.
         """
         if self.next_direction:
             self.direction = self.next_direction
@@ -119,9 +122,8 @@ class Snake(GameObject):
             self.last = self.positions[-1]
             self.positions.pop(-1)
 
-
     def draw(self):
-        """Метод draw класса Snake."""
+        """Метод draw класса Snake. Взяла из прекода."""
         for position in self.positions[:-1]:
             rect = (pg.Rect(position, (GRID_SIZE, GRID_SIZE)))
             pg.draw.rect(screen, self.body_color, rect)
@@ -151,13 +153,13 @@ class Snake(GameObject):
         if start_game:
             self.direction = RIGHT
         else:
-            self.direction = choice([UP, DOWN, LEFT, RIGHT])    
+            self.direction = choice([UP, DOWN, LEFT, RIGHT])
 
 
 def handle_keys(game_object):
     """
     Функция, которая обрабатывает нажатия клавиш,
-    чтобы изменить направление движения змейки.
+    чтобы изменить направление движения змейки. Взяла из прекода.
     """
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -182,7 +184,6 @@ def main():
     # Тут нужно создать экземпляры классов.
     snake = Snake(SNAKE_COLOR)
     apple = Apple(APPLE_COLOR)
-    snake.reset(start_game=True)
     apple.randomize_position(snake.positions)
 
     while True:
